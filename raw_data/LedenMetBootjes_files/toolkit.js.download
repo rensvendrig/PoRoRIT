@@ -1,0 +1,283 @@
+var toolkitFormPanel = {};
+toolkitFormPanel.dirty = [];
+toolkitFormPanel.new_index = 1;
+toolkitFormPanel.removed = [];
+toolkitFormPanel.warning_set = 0;
+
+function toolkitFormPanelSetDirty(row_id) {
+    if (jQuery.inArray(row_id.toString(), toolkitFormPanel.dirty) >= 0)
+        return;
+
+    toolkitFormPanel.dirty.push(row_id.toString());
+    jQuery('#toolkit-form-panel-row-' + row_id + ' .toolkit-form-panel-column input').unbind();
+
+    if (toolkitFormPanel.warning_set == 0) {
+        toolkitFormPanelAddAreYouSure();
+        toolkitFormPanel.warning_set = 1;
+    }
+}
+
+function toolkitFormPanelAddRow() {
+    // Get current row.
+    var row = jQuery("#toolkit-form-panel-row-insert");
+    var row_id = "new-" + toolkitFormPanel.new_index;
+    toolkitFormPanel.new_index += 1;
+
+    toolkitFormPanel.dirty.push(row_id);
+
+    // Store outer html to add
+    var outerHTML = row[0].outerHTML;
+
+    // Set row id
+    row.attr("id", "toolkit-form-panel-row-" + row_id);
+    row.attr("row-id", row_id);
+
+    // Change button
+    var button = row.find("button.btn-add");
+    button.addClass("btn-delete");
+    button.removeClass("btn-add");
+    button.children().addClass("cross");
+
+    // Add new row after current row.
+    row.after(outerHTML);
+
+    if (toolkitFormPanel.warning_set == 0) {
+        toolkitFormPanelAddAreYouSure();
+        toolkitFormPanel.warning_set = 1;
+    }
+
+    jQuery("#toolkit-form-panel-row-insert .toolkit-form-panel-column input")
+        .bind('input', toolkitFormPanelOnInputChange);
+    jQuery('#toolkit-form-panel-row-' + row_id + ' .toolkit-form-panel-column input').unbind();
+}
+
+function toolkitFormPanelRemoveRow(row_id) {
+
+    if (toolkitFormPanel.warning_set == 0) {
+        toolkitFormPanelAddAreYouSure();
+        toolkitFormPanel.warning_set = 1;
+    }
+
+    // Delete existing row.
+    if (!row_id.startsWith("new")) {
+        toolkitFormPanel.removed.push(row_id);
+    }
+
+    // Remove row.
+    jQuery("#toolkit-form-panel-row-" + row_id).remove();
+}
+
+function toolkitFormPanelOnInputChange() {
+    var row_id = jQuery(this).parent().parent().attr("row-id");
+
+    if (row_id === undefined) {
+        // New row
+        toolkitFormPanelAddRow(this);
+    } else {
+        toolkitFormPanelSetDirty(row_id);
+    }
+}
+
+function toolkitFormPanelSubmitChange(debug) {
+    // Set up object
+    var changes = {};
+    changes.insert = [];
+    changes.update = [];
+    changes.remove = [];
+
+    // New and updated rows.
+    jQuery(toolkitFormPanel.dirty).each(function(i, el) {
+        var rowSelector = "#toolkit-form-panel-row-{0}".format(el);
+        var row = jQuery(rowSelector);
+        var inputSelector = "{0} .toolkit-form-panel-column".format(rowSelector);
+        var columns = jQuery("{0} input, {1} textarea".format(inputSelector, inputSelector));
+        var data = {};
+
+        // Extract columns.
+        jQuery(columns).each(function(j, jel) {
+            var name = jQuery(jel).attr("name");
+            var value = jQuery(jel).val();
+            data[name] = value;
+        });
+
+        // Check whether it is a new row or an updated one.
+        if (el.startsWith("new")) {
+            changes.insert.push(data);
+        } else {
+            data['id'] = el;
+            changes.update.push(data);
+        }
+    });
+
+    // Removed rows.
+    changes.remove = toolkitFormPanel.removed;
+    var updateUrl = jQuery(".toolkit-form-panel").attr("update-url");
+    var postData = {};
+    postData.queryString = window.location.href.split("?")[1];
+    postData.data = JSON.stringify(changes);
+
+    var redirectUrl = window.location.href;
+    if (postData.queryString.indexOf('success') === -1) {
+        redirectUrl += '&success';
+    }
+
+    jQuery.post(updateUrl, postData, function(result) {
+        toolkitFormPanelRemoveAreYouSure();
+        if (debug !== undefined)
+            console.log(result);
+        else
+            window.location.href = redirectUrl;
+    });
+}
+
+function toolkitFormPanelAreYouSure(e) {
+    var confirmationMessage = 'Je hebt onopgeslagen wijzigingen. Weet je zeker dat je deze pagina wilt verlaten?';
+    (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+    return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+}
+
+function toolkitFormPanelAddAreYouSure() {
+    window.addEventListener("beforeunload", toolkitFormPanelAreYouSure);
+}
+
+function toolkitFormPanelRemoveAreYouSure() {
+    window.removeEventListener("beforeunload", toolkitFormPanelAreYouSure);
+}
+
+jQuery(document).ready(function() {
+    var toolkitNawDates = jQuery("input.toolkit-naw-dates");
+    if (toolkitNawDates.length)
+        toolkitNawDates.datepick({multiSelect: 999, dateFormat: "yyyy-mm-dd"});
+
+    var toolkitDateSingle = jQuery("input.toolkit-datepicker");
+    if (toolkitDateSingle.length) {
+        toolkitDateSingle.datepick({dateFormat: "dd-mm-yyyy"});
+    }
+
+    var datepicker = jQuery('.bootstrap-iso .datepicker');
+    if (datepicker.length) {
+        jQuery('.bootstrap-iso .datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true
+        });
+    }
+
+    // If the current page contains a form panel
+    var formPanel = jQuery(".toolkit-form-panel");
+    if (formPanel !== undefined) {
+
+        jQuery(".toolkit-form-panel-column input").bind('input', toolkitFormPanelOnInputChange);
+        jQuery(".toolkit-form-panel-column textarea").bind('input', toolkitFormPanelOnInputChange);
+
+        var removeButton = jQuery(".toolkit-form-panel .btn-delete");
+        removeButton.click(function() {
+            var row_id = jQuery(this).parent().attr("row-id");
+            toolkitFormPanelRemoveRow(row_id);
+        });
+
+        jQuery("#toolkit-form-panel-submit").click(function() {
+            toolkitFormPanelSubmitChange()
+        });
+        jQuery("#toolkit-form-panel-submit-debug").click(function() {
+            toolkitFormPanelSubmitChange(1)
+        });
+    }
+
+    // Enable tooltips
+    var bootstrap = jQuery('.bootstrap-iso');
+    if (bootstrap.length) {
+        jQuery('.bootstrap-iso [data-toggle="tooltip"]').tooltip();
+    }
+
+    const checkAllCheckbox = jQuery(".toolkit-table-check-all-checkbox");
+    if (checkAllCheckbox.length > 0) {
+        checkAllCheckbox.click((event) => {
+            const currentCheckAllCheckbox = jQuery(event.target);
+            const otherCheckboxes = currentCheckAllCheckbox.parents().eq(3).find(".toolkit-table-checkbox");
+            const isChecked = currentCheckAllCheckbox.prop("checked");
+            otherCheckboxes.prop("checked", isChecked);
+        });
+    }
+});
+
+function toolkitFormPanelChangePosition(row_id, direction) {
+
+    // Swap animation.
+    var current_div;
+    var next_div;
+
+    if (direction == 'up') {
+        next_div = jQuery("#toolkit-form-panel-row-" + row_id);
+        current_div = next_div.prev();
+    }
+    else {
+        current_div = jQuery("#toolkit-form-panel-row-" + row_id);
+        next_div = current_div.next();
+    }
+
+    if (next_div.length == 0 || current_div.length == 0 ||
+        next_div.hasClass('form-actions') || current_div.hasClass("toolkit-form-panel-header-row"))
+        return;
+
+    var distance = current_div.outerHeight() + 10;
+    
+    current_div.css('position', 'relative');
+    next_div.css('position', 'relative');
+
+    jQuery.when(
+        current_div.animate({
+            'top': distance
+        }, 600),
+        next_div.animate({
+            'top': -distance
+        }, 600)
+    ).done(function () {
+        current_div.css('top', '0px');
+        next_div.css('top', '0px');
+        next_div.insertBefore(current_div);
+    });
+
+    var current_input = current_div.find('input[name="position"]');
+    var next_input = next_div.find('input[name="position"]');
+
+    var temp = next_input.val();
+    next_input.val(current_input.val());
+    current_input.val(temp);
+
+    toolkitFormPanelSetDirty(next_div.attr('row-id'));
+    toolkitFormPanelSetDirty(current_div.attr('row-id'));
+}
+
+/**
+ *  Function for doing a neat string formatting.
+ */
+if (!String.prototype.format) {
+  String.prototype.format = function() {
+    var args = arguments;
+    return this.replace(/{(\d+)}/g, function(match, number) { 
+      return typeof args[number] != 'undefined'
+        ? args[number]
+        : match
+      ;
+    });
+  };
+}
+
+function toolkitFillTemplate(templateId, parameters) {
+    var items = jQuery('#' + templateId);
+    if (!items.length) {
+        throw "Cannot find element #{0}".format(templateId);
+    }
+    var template = jQuery('#' + templateId)[0].innerHTML;
+    for (var key in parameters) {
+        var value = parameters[key];
+        const regex = new RegExp('{' + key + '}', 'g');
+        template = template.replace(regex, toolkitSanitize(value));
+    }
+    return template;
+}
+
+function toolkitSanitize(input) {
+    var lt = /</g, gt = />/g, ap = /'/g, ic = /"/g;
+    return input.toString().replace(lt, "&lt;").replace(gt, "&gt;").replace(ap, "&#39;").replace(ic, "&#34;");
+}

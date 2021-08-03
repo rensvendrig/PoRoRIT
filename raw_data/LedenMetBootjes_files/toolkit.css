@@ -1,0 +1,443 @@
+.toolkit-button, .toolkit-button:active, .toolkit-button:visited {
+    margin-left: 4px;
+    padding: 4px 8px;
+    text-decoration: none;
+    border: none;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    background: #e0e0e0;
+    text-shadow: none;
+    font-weight: 600;
+    font-size: 13px;
+    width: auto;
+    display: inline-block;
+    color: #404040;
+}
+
+.toolkit-button[disabled=disabled] {
+    color: #e0e0e0;
+}
+
+.toolkit-button:hover {
+    background-color: #2EA2CC;
+    color: white;
+}
+
+.toolkit-button-alt, .toolkit-button-alt:active, .toolkit-button-alt:visited {
+    position: relative;
+    display: inline-block;
+    border-radius: 3px;
+    height: 28px;
+    padding: 0 11px 1px;
+    cursor: pointer;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #fff;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 26px;
+    text-align: center;
+    text-decoration: none;
+    background: #2EA2CC;
+    border: #0074A2 solid 1px;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset;
+}
+
+.toolkit-button-alt:hover {
+    background-color: #298CBA;
+    color: #fff;
+}
+
+.toolkit-message {
+    display: inline-block;
+    line-height: 19px;
+    padding: 1px 12px;
+    margin: 5px 0px 15px 0px;
+    font-size: 14px;
+    text-align: left;
+    background-color: #fff;
+    -webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+    width: auto;
+    display: block;
+    font-weight: bold;
+}
+
+div.content-block .toolkit-message {
+    margin: 0px 10px 5px 10px;
+}
+
+div.toolkit-message p {
+    margin: 6.5px 0px;
+    padding: 2px;
+}
+
+.toolkit-message-warning {
+    border-left: 4px solid #ffba00;
+}
+
+.toolkit-message-notice {
+    border-left: 4px solid #7ad03a;
+}
+
+.toolkit-message-error {
+    border-left: 4px solid #dd3d36;
+}
+
+.toolkit-message-info {
+    border-left: 4px solid #b0b0b0;
+}
+
+.top-button-bar {
+    padding-left: 5px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 20px;
+}
+
+.top-button-bar .toolkit-button {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.toolkit-field-label {
+    width: 160px;
+    float: left;   
+}
+
+.toolkit-field-input {
+    margin-left: 170px;
+}
+
+.toolkit-field-input input {
+    width: 100%;
+}
+
+.toolkit-field-input input.datepicker {
+    width: 80%;
+}
+
+.toolkit-field-input input[type='checkbox'] {
+    width: auto;
+}
+
+.toolkit-field-input button {
+    content: "\f508";
+}
+
+.toolkit-field {
+    width: 100%;
+    height: auto;
+}
+
+.toolkit-box {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid #E5E5E5;
+    position: relative;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+    float: left;
+}
+
+.toolkit-box .title {
+    border-bottom: 1px solid #EEEEEE;
+    margin: 0;
+    padding: 15px;
+    background: #FFFFFF;
+}
+
+.toolkit-box h3 {
+    font-size: 14px;
+    line-height: 1em;
+    margin: 0;
+    padding: 0;
+}
+
+.toolkit-box table {
+    border: 0 none;
+    background: #fff;
+}
+
+.toolkit-box table tr td {
+    padding: 13px 15px;
+    border-top: 1px solid #f5f5f5;
+    border-bottom: 0 none;
+    border-left: 1px solid #f5f5f5;
+    border-right: 1px solid #f5f5f5;
+}
+
+.toolkit-box table tr td.grey {
+    vertical-align: top;
+    background: #F9F9F9;
+    border-top: 1px solid #f0f0f0;
+    border-right: 1px solid #E1E1E1;    
+}
+
+.toolkit-box table tr td.head {
+    text-align: center;
+}
+
+
+.toolkit-form-column {
+    width: 50%;
+    float: left;
+}
+
+.toolkit-form-field {
+    /*float: left;*/
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.toolkit-form-field-label {
+    min-width: 145px;
+    float: left;
+    /*font-size: 14px;*/
+}
+
+.toolkit-form-field-input {
+    float: left;
+}
+
+.toolkit-form-field-input textarea {
+    width: 100%;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+.toolkit-form-form-container {
+    background-color: #EFEFEF;
+    padding: 10px;
+}
+
+.toolkit-form-form-container table {
+    margin-top: 10px !important;
+}
+
+.toolkit-form-form-container table th {
+    font-family: NovecentowideNormalRegular;
+    font-weight: normal;
+}
+
+.toolkit-form-form-part {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #D4D4D4;
+    margin-bottom: 10px;
+}
+
+.toolkit-form-field-checkbox {
+    margin-top: 5px;
+    float: left;
+    min-width: 90px;
+    margin-right: 10px;
+}
+
+.toolkit-form-panel-column input {
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 2px;
+    font-size: inherit;
+    -webkit-flex: 1;
+    width: 100%;
+    /*display:table-cell;*/
+}
+
+.toolkit-form-panel-column textarea {
+    min-height: 30px;
+    height: 30px;
+    width: 100%;
+}
+
+.toolkit-form-panel-header {
+    font-weight: bold;
+}
+
+.toolkit-form-panel .btn-add {
+    color: #fff;
+    background-color: #1491e1;
+    border-color: #1491e1;
+}
+
+.toolkit-form-panel .plus-sm {
+    top: -1px;
+    width: 16px;
+    height: 16px;
+}
+
+.toolkit-form-panel .plus {
+    display: inline-block;
+    position: relative;
+    vertical-align: bottom;
+    -webkit-transition: transform .5s;
+    -o-transition: transform .5s;
+    transition: transform .5s;
+    width: 20px;
+    height: 20px;
+}
+
+.toolkit-form-panel .btn-add .plus:before, .toolkit-form-panel .btn-add .plus:after {
+    background-color: #fff;
+}
+
+.toolkit-form-panel .plus-sm:before {
+    top: 7px;
+    height: 2px;
+    width: 16px;
+}
+
+.toolkit-form-panel .plus:before {
+    top: 9px;
+    height: 2px;
+    width: 20px;
+}
+
+.toolkit-form-panel .plus:before {
+    left: 0;
+}
+
+.toolkit-form-panel .plus:before, .toolkit-form-panel .plus:after {
+    position: absolute;
+    content: '';
+    background-color: #333;
+}
+
+.toolkit-form-panel .btn-add .plus:before, .toolkit-form-panel .toolkit-form-panel .btn-add .plus:after {
+    background-color: #fff;
+}
+
+.toolkit-form-panel .plus-sm:after {
+    left: 7px;
+    height: 16px;
+    width: 2px;
+}
+
+.toolkit-form-panel .plus:after {
+    left: 9px;
+    height: 20px;
+    width: 2px;
+    top: 0;
+}
+
+.toolkit-form-panel .plus:before, .toolkit-form-panel .plus:after {
+    position: absolute;
+    content: '';
+    background-color: #333;
+}
+
+.btn-add.btn.btn-sm .plus, .btn-delete.btn.btn-sm .plus, .btn-remove.btn.btn-sm .plus {
+    margin: 0 -4px;
+}
+
+.btn-add.btn .plus, .btn-delete.btn .plus, .btn-remove.btn .plus {
+    margin: 0 -5px;
+}
+
+.cross {
+    -webkit-transform-origin: 50% 50%;
+    -moz-transform-origin: 50% 50%;
+    -ms-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+@media screen and (min-width: 1000px) {
+    .toolkit-form-panel .row .col-md-3,
+    .toolkit-form-panel .row .col-md-2 {
+        padding-right: 7px;
+        padding-left: 7px;
+    }
+
+    .toolkit-form-panel .row .col-md-3:first-of-type,
+    .toolkit-form-panel .row .col-md-2:first-of-type {
+        padding-left: 15px;
+    }
+}
+
+.toolkit-form-panel .row {
+    margin-bottom: 10px;
+}
+
+.toolkit-box table tr td.toolkit-box-menu-column {
+    padding: 0px;
+    width: 160px;
+    margin: 0px;
+}
+
+/** Toolkit box menu **/
+.toolkit-box-menu {
+    padding: 0px;
+    margin: 0px;
+}
+
+.toolkit-box-menu li {
+    border: none;
+    min-height: 34px;
+    position: relative;
+    margin-bottom: 1px;
+}
+
+.toolkit-box-menu li:hover {
+    background-color: #e0e0e0;
+}
+
+.toolkit-box-menu li.active {
+    background-color: #e0e0e0;
+}
+
+.toolkit-box-menu li a {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    padding: 0;
+}
+
+.toolkit-box-menu-image {
+    float: left;
+    width: 36px;
+    height: 34px;
+    margin: 0;
+    text-align: center;
+}
+
+.toolkit-box-menu-image:before {
+    padding: 7px 0;
+    transition: all .1s ease-in-out;
+}
+
+.toolkit-box-menu-name {
+    padding: 8px 0;
+}
+
+@media only screen and (max-width: 960px) {
+    .toolkit-box table tr td.toolkit-box-menu-column {
+        width: 36px;
+    }
+
+    .toolkit-box-menu li {
+        width: 36px;
+    }
+
+    .toolkit-box-menu li a {
+        height: 34px;
+    }
+
+    .toolkit-box-menu-image {
+        height: 30px;
+        width: 34px;
+        position: absolute;
+        z-index: 25;
+    }
+
+    .toolkit-box-menu-name {
+        position: absolute;
+        left: -999px;
+    }
+}
+
+.widefat th .toolkit-table-check-all-checkbox {
+    margin-left: 0px;
+}

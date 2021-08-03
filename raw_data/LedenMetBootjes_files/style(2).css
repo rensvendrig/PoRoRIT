@@ -1,0 +1,209 @@
+#category-navigation {
+  font-size: 12px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.category-navigation-item {
+  height: 18px;
+  border-bottom: 1px solid #e0e0e0;
+  border-top: 1px solid #e0e0e0;
+  padding: 5px 10px;
+  float: left;
+}
+
+.category-navigation-spacer {
+  width: 11px;
+  height: 29px;
+  border: 1px solid #e0e0e0;
+  border-top: 0px;
+  float: left;
+}
+
+#category-navigation .active {
+  border-bottom: none;
+}
+
+a:hover, a:visited, a:link, a:active {
+  color: black;
+  text-decoration: none;
+}
+
+#stc-left {
+	width: 55%;
+	float: left;
+	padding-right: 25px;
+	border-right: 1px solid #e0e0e0;
+}
+
+#stc-right {
+	width: 40%;
+	float: left;
+	margin-left: 25px;
+}
+
+table.stc-add {
+	text-align: left;
+	margin-bottom: 10px;
+	width: 300px;
+}
+
+table.stc-add td {
+	min-width: 50px;
+	max-width: 230px;
+}
+
+table.stc-add th {
+	width: 150px;
+}
+
+table.stc-add th.stc-caption {
+	font-size: 14px;
+	height: 22px;
+	border-bottom: 1px solid black;
+}
+
+table.stc-add input{
+	width: 200px;
+}
+
+table.stc-add textarea {
+	width: 200px;
+	height: 100px;
+}
+
+table.stc-add input.stc-submit {
+	width: 100px;
+	margin-left: 100px;
+}
+
+.stc-textarea {
+	height: 90px;
+	width: 230px;
+}
+
+.stc-text {
+	width: 230px;
+}
+
+.stc-list tbody tr td {
+	padding: 2px 10px;
+}
+
+p.stc-button {
+	height: 16px;
+	max-width: 400px;
+	padding: 7px 10px;
+	font-size: 14px;
+	font-weight: bold;
+	border: 1px solid #e0e0e0;
+	color: #656565;
+	border-radius: 10px;
+}
+
+p.stc-button:hover {
+	color: black;
+}
+
+p.stc-button a:hover, p.stc-button a:link, p.stc-button a:visited, p.stc-button a:active {
+	color: #656565;
+}
+
+table.com td{
+	padding: 0px 10px 0px 0px;
+}
+
+.stc_compart {
+	float: left;
+	/* height: 230px;*/
+	width: 50%;
+}
+
+.committee-table .sortorder {
+    width: 30px;
+}
+
+.committee-table .function {
+    width: 100%;
+}
+
+.committee-table {
+    margin-bottom: 5px;
+}
+
+.committee-table select {
+  height: 20px;
+  margin-top: -2px;
+  font-size: 12px;
+}
+
+.delete-member:before {
+    content: "\f335";
+}
+
+.stippen-members .stippen-span:before {
+    content: "\f307";
+}
+
+.stippen-span:before {
+    font: normal 20px/1 'dashicons';
+    speak: none;
+    display: block;
+    float: left;
+    margin: 0 5px 0 0;
+    padding: 0;
+    text-indent: 0;
+    text-align: center;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    text-decoration: none !important;
+}
+
+.stippen-stip .stippen-span {
+    font-weight: bold;
+}
+
+.stippen-stip .stippen-span:before {
+    content: "\f313";
+}
+
+.stippen-stip {
+    width: 32%;
+    display: inline-block;
+    min-width: 80px;
+}
+
+.stippen-names {
+    width: 100%;
+    min-height: 181px;
+}
+
+#person-stippen {
+    display: none;
+}
+
+#stc-loading {
+    display: none;
+}
+
+.skoll-admin-committees #dashboard-widgets .postbox-container {
+    min-width: 550px;
+    float: left !important;
+}
+
+.committees-apply-info {
+  display: none;
+}
+
+.committees-apply-info div {
+  width: 50%;
+  float: left;
+  color: #555;
+}
+
+#check-all {
+  margin: 0px;
+  margin-top: 2px;
+}
