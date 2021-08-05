@@ -15,7 +15,7 @@ st.title('PoRoRIT: Voorspel de Potentiele RIT Club- en Wedstrijdroeiers App!')
 st.markdown("""
 Op basis van van de inschrijfformulieren van voorgaande jaren voorspelt deze app of de nieuwe leden van Skoll potentie hebben om te gaan club- of wedstrijdroeien. 
 Upload direct de CSV, gedownload van de website, waar alle nieuwe ritters instaan met hun gegevens, bijvoorbeeld genaamd 'nieuwe_leden_20210803.xls'. 
-* **Python libraries:** bs4, pandas, streamlit, numpy, matplotlib, sklearn, xgboost, base64
+* **Python libraries:** bs4, pandas, streamlit, numpy, sklearn, xgboost, base64
 * **Github:** https://github.com/rensvendrig/PoRoRIT.
 \nGemaakt door Rens Vendrig
 """)
@@ -32,18 +32,16 @@ def aggr_files():
 
 
 def drop_private_cols(df):
-    df = df.drop(['Geboortedatum', 'E-mailadres', 'Wat studeer je?', 'Telefoonnummer', 'Studentnummer'],
-                 axis=1, errors = 'ignore')  # privacy sensitive
     df = df.drop(['Heb je je zwemdiploma A?', 'Anders, namelijk.1', 'Wat is het fanatiekst dat je hebt gesport?',
                   'Indien je niet in Amsterdam woont, ben je op zoek naar een kamer in Amsterdam?',
                   'Op Skøll eten veel mensen vegetarisch, pas je voorkeur hieronder aan als je toch wel vlees wilt eten',
-                  'Namelijk', 'Wanneer verwacht je af te studeren?', 'Instituut', 'Ik wil naar Skøll voor',
+                  'Namelijk', 'Wanneer verwacht je af te studeren?', 'Instituut',
                   'Wanneer ben je begonnen met je studie?',
                   'Heb je medische bijzonderheden waar wij rekening mee moeten houden?',
                   'Heb je allergieën waar wij rekening mee moeten houden?', 'Waar ken je Skøll van?',
                   'Heb je je naast sport op een ander gebied buitengewoon ingezet?',
                   'Zo ja, bij welke vereniging?', 'Hoeveel jaar heb je je langst beoefende sport beoefend?'
-                  ], axis=1, errors = 'ignore')
+                  ], axis=1)
     return df
 
 
@@ -56,6 +54,10 @@ def transform_df(df):
 
     df['Gewicht (in kg)'] = df['Gewicht (in kg)'].str.extract('(\d+)')
     df['Lengte (in cm)'] = df['Lengte (in cm)'].str.extract('(\d+)')
+
+    df['Ik wil naar Skøll voor'].fillna('no', inplace=True)
+    df['skollvoorroeien'] = np.where(df['Ik wil naar Skøll voor'].str.contains('top_rowing'), 1, 0)
+    df.drop(['Ik wil naar Skøll voor'], axis=1, inplace=True)
 
     df['Zo ja, hoe lang?'].fillna('no', inplace=True)
     df['1+ jaar al geroeid'] = np.where(df['Zo ja, hoe lang?'].str.contains('jaar'), 1, 0)
@@ -111,25 +113,15 @@ def fileupload():
         return df
 
 
-df = aggr_files()
+df = pd.read_csv('raw_data/training_data.csv')
 df = drop_private_cols(df)
 df = transform_df(df)
 
-with open("raw_data/LedenMetBootjes.html", encoding='utf-8') as fp:
-    soup = bs.BeautifulSoup(fp, 'html.parser')
-table = soup.find(id='toolkit-table', attrs={'class':'wp-list-table widefat fixed posts'})
-table_rows = table.find_all('tr')
 
-
-l = []
-for tr in table_rows:
-    td = tr.find_all('td')
-    row = [tr.text for tr in td]
-    l.append(row)
-bootjes = pd.DataFrame(l, columns=["Name", "SaxoId", 'WpId', 'Boten'])
-bootjes.dropna(axis=0, inplace = True)
+bootjes = pd.read_csv('raw_data/people_with_boats.csv')
 bootjes['Boten'] = bootjes['Boten'].str.split(',')
 bootjes = bootjes[bootjes['Boten'].str.len() != 1]
+bootjes.dropna(axis=0, inplace = True)
 
 # bootjes['TopC4'] = np.where(bootjes['Boten'].astype(str).str.contains('TopC'), 1, 0)
 # bootjes['Talenten'] = np.where(bootjes['Boten'].astype(str).str.contains('Talenten '), 1, 0)
@@ -155,7 +147,7 @@ enddf.fillna(0, inplace=True)
 scale_data = False
 # als er andere vragen bijkomen bij het inschrijfformulier dan nu (03-08-2021), dan alle kolommen scalen
 # aangezien er dus kolommen bijzitten die ik niet ken, en dan kan je ze maar beter scalen.
-if len(enddf.columns) != 12:
+if len(enddf.columns) != 13:
     scale_data = True
 if scale_data:
     allcols = enddf.columns
@@ -190,6 +182,8 @@ if uploaded_file is not None:
     if start_execution:
         inputdf = pd.read_csv(uploaded_file, delimiter = "\t")
 
+        inputdf = inputdf.drop(['Geboortedatum', 'E-mailadres', 'Wat studeer je?', 'Telefoonnummer', 'Studentnummer'],
+                               axis=1)  # privacy sensitive
         inputdf = drop_private_cols(inputdf)
         inputdf = transform_df(inputdf)
         inputdf.fillna(0, inplace = True)
