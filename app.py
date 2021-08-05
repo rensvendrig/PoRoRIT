@@ -16,7 +16,7 @@ Op basis van van de inschrijfformulieren van voorgaande jaren voorspelt deze app
 Upload direct de CSV, gedownload van de website, waar alle nieuwe ritters instaan met hun gegevens, bijvoorbeeld genaamd 'nieuwe_leden_20210803.xls'. 
 * **Python libraries:** bs4, pandas, streamlit, numpy, sklearn, xgboost, base64
 * **Github:** https://github.com/rensvendrig/PoRoRIT.
-\nGemaakt door Rens Vendrig
+\nGemaakt door Rens Vendrig. Vragen over de app? Mail dan naar rensvendrig121@gmail.com!
 """)
 
 
