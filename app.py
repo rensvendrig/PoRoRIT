@@ -2,7 +2,6 @@ import glob
 import os
 import numpy as np
 np.set_printoptions(suppress=True)
-import bs4 as bs
 import pandas as pd
 pd.set_option('max_colwidth', 8000)
 import xgboost as xgb
