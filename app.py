@@ -199,14 +199,16 @@ if uploaded_file is not None:
 
         # test_set = pd.concat([X_male_test_w_name, X_female_test_w_name])
         X_male_test_w_name['prediction'] = np.around(predmale, 5)
-        X_male_test_w_name = X_male_test_w_name.loc[:, ['Naam','prediction']]
         X_male_test_w_name.sort_values(by='prediction', ascending = False, inplace = True)
         X_male_test_w_name.reset_index(inplace=True)
+        X_male_test_w_name = X_male_test_w_name.loc[:, ['Naam','prediction']]
+
 
         X_female_test_w_name['prediction'] = np.around(predfemale, 5)
-        X_female_test_w_name = X_female_test_w_name.loc[:, ['Naam','prediction']]
         X_female_test_w_name.sort_values(by='prediction', ascending = False, inplace = True)
         X_female_test_w_name.reset_index(inplace=True)
+        X_female_test_w_name = X_female_test_w_name.loc[:, ['Naam','prediction']]
+
 
         col1, col2 = st.beta_columns([1, 1])
         with col1:
