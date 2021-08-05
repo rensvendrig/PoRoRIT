@@ -206,11 +206,20 @@ if uploaded_file is not None:
         X_female_test_w_name = X_female_test_w_name.loc[:, ['Naam','prediction']]
         X_female_test_w_name.sort_values(by='prediction', ascending = False, inplace = True)
 
-        st.write(X_male_test_w_name)
-        st.markdown(filedownload(X_male_test_w_name, 'Download heren voorspelling als CSV bestand'), unsafe_allow_html=True)
+        col1, col2 = st.beta_columns([1, 1])
+        with col1:
+            st.subheader('Voorspelling Heren')
+            st.write(X_male_test_w_name)
+            st.markdown(filedownload(X_male_test_w_name, 'Download heren voorspelling als CSV bestand'),
+                        unsafe_allow_html=True)
+        with col2:
+            st.subheader('Voorspelling Dames')
+            st.write(X_female_test_w_name)
+            st.markdown(filedownload(X_female_test_w_name, 'Download dames voorspelling als CSV bestand'),
+                        unsafe_allow_html=True)
 
-        st.write(X_female_test_w_name)
-        st.markdown(filedownload(X_female_test_w_name, 'Download dames voorspelling als CSV bestand'), unsafe_allow_html=True)
+
+
 
 # hide_streamlit_style = """
 #             <style>
