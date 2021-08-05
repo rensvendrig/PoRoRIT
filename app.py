@@ -97,10 +97,10 @@ def transform_df(df):
 
     return df
 
-def filedownload(df):
+def filedownload(df,text):
     csv = df.to_csv(index=False)
     b64 = base64.b64encode(csv.encode()).decode()  # strings <-> bytes conversions
-    href = f'<a href="data:file/csv;base64,{b64}" download="PoRoRIT_Results.csv">Download als csv bestand</a>'
+    href = f'<a href="data:file/csv;base64,{b64}" download="PoRoRIT_Results.csv">{text}</a>'
     return href
 
 def fileupload():
@@ -197,14 +197,20 @@ if uploaded_file is not None:
         predmale = xg_regmale.predict(X_male_test)
         predfemale = xg_regfemale.predict(X_female_test)
 
+        # test_set = pd.concat([X_male_test_w_name, X_female_test_w_name])
         X_male_test_w_name['prediction'] = np.around(predmale, 5)
-        X_female_test_w_name['prediction'] = np.around(predfemale, 5)
-        test_set = pd.concat([X_male_test_w_name, X_female_test_w_name])
-        test_set = test_set.loc[:, ['Naam','prediction']]
-        test_set.sort_values(by='prediction', ascending = False, inplace = True)
+        X_male_test_w_name = X_male_test_w_name.loc[:, ['Naam','prediction']]
+        X_male_test_w_name.sort_values(by='prediction', ascending = False, inplace = True)
 
-        st.write(test_set)
-        st.markdown(filedownload(test_set), unsafe_allow_html=True)
+        X_female_test_w_name['prediction'] = np.around(predfemale, 5)
+        X_female_test_w_name = X_female_test_w_name.loc[:, ['Naam','prediction']]
+        X_female_test_w_name.sort_values(by='prediction', ascending = False, inplace = True)
+
+        st.write(X_male_test_w_name)
+        st.markdown(filedownload(X_male_test_w_name, 'Download heren voorspelling als CSV bestand'), unsafe_allow_html=True)
+
+        st.write(X_female_test_w_name)
+        st.markdown(filedownload(X_female_test_w_name, 'Download dames voorspelling als CSV bestand'), unsafe_allow_html=True)
 
 # hide_streamlit_style = """
 #             <style>
