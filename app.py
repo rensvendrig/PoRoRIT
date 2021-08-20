@@ -51,8 +51,8 @@ def transform_df(df):
     df['Heb je eerder geroeid?'].replace('Nee', 0, inplace=True)
     df['Heb je eerder geroeid?'].replace('Ja', 1, inplace=True)
 
-    df['Gewicht (in kg)'] = df['Gewicht (in kg)'].str.extract('(\d+)')
-    df['Lengte (in cm)'] = df['Lengte (in cm)'].str.extract('(\d+)')
+    df['Gewicht (in kg)'] = df['Gewicht (in kg)'].apply(str).str.extract('(\d+)')
+    df['Lengte (in cm)'] = df['Lengte (in cm)'].apply(str).str.extract('(\d+)')
 
     df['Ik wil naar Skøll voor'].fillna('no', inplace=True)
     df['skollvoorroeien'] = np.where(df['Ik wil naar Skøll voor'].str.contains('top_rowing'), 1, 0)
